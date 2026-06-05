@@ -8,7 +8,7 @@ architecture sim of tb_seq101 is
 	signal data : std_logic;
 	signal detected : std_logic;
 	signal reset: std_logic;
-	signal clk : std_logic;
+	signal clk : std_logic :='0';
 	constant CLK_PERIOD : time := 10 ns;
 	
 begin
@@ -61,6 +61,6 @@ begin
         wait;
     end process stimulus;
 
-end sim;
+end architecture sim;
 			
 	
