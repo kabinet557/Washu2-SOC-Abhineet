@@ -13,7 +13,7 @@ entity bicounter is
 end bicounter;
 
 architecture rtl of bicounter is
-    signal counter : std_logic_vector(3 downto 0);
+    signal counter : std_logic_vector(3 downto 0) := (others => '0');
 begin
     process (clk)
     begin
@@ -26,7 +26,8 @@ begin
                 else
                     counter <= std_logic_vector(unsigned(counter) - 1);
                 end if;
-        end if; 
+        end if;
+	end if;
     end process;
     count <= counter;
 end rtl;
