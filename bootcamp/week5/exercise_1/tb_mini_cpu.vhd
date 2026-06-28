@@ -2,8 +2,8 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity tb_mini_cpu_ex1 is
-end tb_mini_cpu_ex1;
+entity tb_mini_cpu is
+end tb_mini_cpu;
 
 architecture sim of tb_mini_cpu is
 
