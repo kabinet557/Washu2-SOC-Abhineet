@@ -1,0 +1,68 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity tb_washu2 is
+end tb_washu2;
+
+architecture sim of tb_washu2 is
+
+    signal clk : std_logic := '0';
+    signal reset : std_logic := '1';
+    signal done : std_logic;
+
+    constant CLK_PERIOD : time := 10 ns;
+
+begin
+
+    clk <= not clk after CLK_PERIOD / 2;
+
+    uut : entity work.washu2_cpu
+        port map (
+            clk => clk,
+            reset => reset,
+            done => done
+        );
+
+    stimulus : process
+    begin
+
+        reset <= '1';
+        wait for 3 * CLK_PERIOD;
+        reset <= '0';
+
+        wait until done = '1' for 120 * CLK_PERIOD;
+
+        assert done = '1'
+            report "FAILED, done never asserted"
+            severity error;
+
+        wait for CLK_PERIOD;
+
+        wait for 5 * CLK_PERIOD;
+
+        assert done = '1'
+            report "FAILED, cpu left halt state"
+            severity error;
+
+        reset <= '1';
+        wait for 2 * CLK_PERIOD;
+        reset <= '0';
+        wait for CLK_PERIOD;
+
+        assert done = '0'
+            report "FAILED, done should be 0 after reset"
+            severity error;
+
+        wait until done = '1' for 130 * CLK_PERIOD;
+
+        assert done = '1'
+            report "FAILED, cpu did not complete program"
+            severity error;
+
+        wait for 3 * CLK_PERIOD;
+        report "stimulus complete" severity note;
+        wait;
+
+    end process stimulus;
+
+end sim;
